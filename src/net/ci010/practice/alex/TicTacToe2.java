@@ -103,6 +103,7 @@ public class TicTacToe2
 		while (situation == Situation.nothing || situation == Situation.danger)
 		{ // keep running if nobody wins
 			rounds++; // round +1 in each loop
+			
 			playerMove();
 
 			paintResult();
@@ -122,7 +123,7 @@ public class TicTacToe2
 	{ // determine situations
 		String row = ""; // the sum of strings
 		String col = "";
-		println("determine");
+		println("computer move");
 
 		situation = Situation.nothing;
 
@@ -179,11 +180,6 @@ public class TicTacToe2
 		else
 			// block();
 			testBlock();
-
-	}
-
-	static void think()
-	{
 
 	}
 
@@ -358,7 +354,6 @@ public class TicTacToe2
 	public static void block()
 	{
 		String sum = ""; // the sum of strings
-		int itt = 0; // times of iterations
 
 		System.out.println("block");
 
