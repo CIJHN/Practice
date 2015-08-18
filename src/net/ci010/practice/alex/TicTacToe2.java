@@ -4,11 +4,11 @@ import java.util.*;
 
 public class TicTacToe2
 {
-	static Situation situation;
-	static String[][] tic = new String[3][3];
-	static Scanner console = new Scanner(System.in);
-	static Random rand = new Random();
-	static int rounds = 0;
+	private static Situation situation;
+	private static String[][] tic = new String[3][3];
+	private static Scanner console = new Scanner(System.in);
+	private static Random rand = new Random();
+	private static int rounds = 0;
 
 	/**
 	 * the first method you need to fire to start a game
@@ -45,6 +45,29 @@ public class TicTacToe2
 		console.close();
 	}
 
+	private static void playone()
+	{
+		situation = Situation.nothing;
+
+		println("playone");
+
+		while (situation == Situation.nothing || situation == Situation.danger)
+		{
+			rounds++; // round +1 in each loop
+
+			playerMove();
+
+			paintBoard();
+
+			computerMove();
+
+			paintBoard();
+
+			System.out.println("Round " + rounds + " end.");
+
+		}
+	}
+	
 	/**
 	 * @author CIJhn
 	 * @usage 4 basic situation
@@ -93,29 +116,7 @@ public class TicTacToe2
 		tic[row][column] = "X"; // user puts an X in array
 	}
 
-	private static void playone()
-	{
-		situation = Situation.nothing;
-
-		println("playone");
-
-		while (situation == Situation.nothing || situation == Situation.danger)
-		{
-			rounds++; // round +1 in each loop
-
-			playerMove();
-
-			paintBoard();
-
-			computerMove();
-
-			paintBoard();
-
-			System.out.println("Round " + rounds + " end.");
-
-		}
-
-	}
+	
 
 	private static void computerMove()
 	{ // determine situations
