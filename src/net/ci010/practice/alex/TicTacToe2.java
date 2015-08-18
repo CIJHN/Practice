@@ -62,11 +62,6 @@ public class TicTacToe2
 
 	}
 
-	enum Toe
-	{
-		o, x, blank
-	}
-
 	static void println(String s)
 	{
 		System.out.println(s);
