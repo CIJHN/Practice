@@ -10,6 +10,9 @@ public class TicTacToe2
 	static Random rand = new Random();
 	static int rounds = 0;
 
+	/**
+	 * the first method you need to fire to start a game
+	 */
 	public static void go()
 	{
 		for (int j = 0; j <= 2; j++)
@@ -21,6 +24,7 @@ public class TicTacToe2
 		}
 
 		System.out.println("Let's play 三子棋. Do you want to go first?");
+
 		String yn = "o";
 		do
 		{ // keep running if the user enters nonsense
@@ -29,96 +33,91 @@ public class TicTacToe2
 		}
 		while (!yn.equals("Y") && !yn.equals("N"));
 
-		if (yn.equals("Y"))
-		{
+		if (yn.equals("Y") || yn.equals("y"))
 			playone(); // user go first
-		}
-		else if (yn.equals("N"))
+
+		else if (yn.equals("N") || yn.equals("n"))
 		{ // computer go first
-			tic[0][0] = "O";
+			tic[rand.nextInt(3)][rand.nextInt(3)] = "O";
 			playone();
 		}
 
 		console.close();
 	}
 
+	/**
+	 * @author CIJhn
+	 * @usage 4 basic situation
+	 */
 	enum Situation
 	{
 		danger, nothing, win, lose;
-
-		int x, y;
-
-		static Situation forY(int x, int y)
-		{
-			Situation temp = Situation.danger;
-			danger.x = x;
-			danger.y = y;
-			return temp;
-		}
-
 	}
 
-	static void println(String s)
+	/**
+	 * wrapper of System.out.println();
+	 * 
+	 * @param s
+	 *            the line you want to print;
+	 */
+	private static void println(String s)
 	{
 		System.out.println(s);
 	}
 
-	static void playerMove()
+	/**
+	 * player round
+	 */
+	private static void playerMove()
 	{
-		int r = 0; // user row
-		int c = 0; // user colume
+		int row = 0;
+		int column = 0;
 
 		do
 		{
 			do
 			{
 				System.out.print("Enter row(1 to 3): ");
-				r = console.nextInt() - 1;
+				row = console.nextInt() - 1;
 			}
-			while (r > 3);
+			while (row > 3);
 			do
 			{
 				System.out.print("Enter column(1 to 3): ");
-				c = console.nextInt() - 1;
+				column = console.nextInt() - 1;
 			}
-			while (c > 3);
+			while (column > 3);
 		}
-		while (!tic[r][c].equals("N")); // if the
-										// array
-										// place has
-										// been
-										// occupied,
-										// input
-										// again
-		tic[r][c] = "X"; // user puts an X in array
+		while (!tic[row][column].equals("N"));
+
+		tic[row][column] = "X"; // user puts an X in array
 	}
 
-	public static void playone()
+	private static void playone()
 	{
 		situation = Situation.nothing;
 
 		println("playone");
 
 		while (situation == Situation.nothing || situation == Situation.danger)
-		{ // keep running if nobody wins
+		{
 			rounds++; // round +1 in each loop
-			
+
 			playerMove();
 
-			paintResult();
+			paintBoard();
 
-			computerMove(); // determine win or lose or danger
+			computerMove();
 
-			paintResult();
+			paintBoard();
 
 			System.out.println("Round " + rounds + " end.");
 
-		} // play time
+		}
 
 	}
 
-	// 判定胜负
-	public static void computerMove()
+	private static void computerMove()
 	{ // determine situations
 		String row = ""; // the sum of strings
 		String col = "";
@@ -174,6 +173,7 @@ public class TicTacToe2
 											// occupied,
 											// random
 											// again
+
 			tic[i][j] = "O"; // user puts an O in array
 		}
 		else
@@ -182,7 +182,15 @@ public class TicTacToe2
 
 	}
 
-	static boolean patchR(int num)
+	/**
+	 * patch the #num row
+	 * 
+	 * @param num
+	 *            the number of row will be patch
+	 * @return if it's patched successfully; if not, there must be some fatal
+	 *         error....
+	 */
+	private static boolean patchR(int num)
 	{
 		for (int t = 0; t <= 2; t++)
 		{
@@ -196,7 +204,15 @@ public class TicTacToe2
 		return false;
 	}
 
-	static boolean patchC(int num)
+	/**
+	 * patch the #num column
+	 * 
+	 * @param num
+	 *            the number of column will be patch
+	 * @return if it's patched successfully; if not, there must be some fatal
+	 *         error....
+	 */
+	private static boolean patchC(int num)
 	{
 		for (int t = 0; t <= 2; t++)
 		{
@@ -210,17 +226,36 @@ public class TicTacToe2
 		return false;
 	}
 
-	static boolean willWin(String sum)
+	/**
+	 * if the situation is the computer is going to win the game
+	 * 
+	 * @param sum
+	 *            the added up line of toes
+	 * @return if the situation is the computer is going to win the game
+	 */
+	private static boolean willWin(String sum)
 	{
 		return sum.equals("OON") || sum.equals("NOO") || sum.equals("ONO");
 	}
 
-	static boolean willLose(String sum)
+	/**
+	 * if the situation is the computer is going to lose the game
+	 * 
+	 * @param sum
+	 *            the added up line of toes
+	 * @return if the situation is the computer is going to lose the game
+	 */
+	private static boolean willLose(String sum)
 	{
 		return sum.equals("NXX") || sum.equals("XXN") || sum.equals("XNX");
 	}
 
-	static String sumR(int r)
+	/**
+	 * sum the #r row
+	 * @param r the # of row will be summed
+	 * @return sum the #r row
+	 */
+	private static String sumR(int r)
 	{
 		String s = "";
 		for (int i = 0; i < 3; i++)
@@ -228,7 +263,12 @@ public class TicTacToe2
 		return s;
 	}
 
-	static String sumC(int c)
+	/**
+	 * sum the #c column
+	 * @param c the # of column will be summed
+	 * @return sum the #c column
+	 */
+	private static String sumC(int c)
 	{
 		String s = "";
 		for (int i = 0; i < 3; i++)
@@ -236,7 +276,7 @@ public class TicTacToe2
 		return s;
 	}
 
-	static void block()
+	private static void block()
 	{
 		String sum; // the sum of strings
 
@@ -298,7 +338,8 @@ public class TicTacToe2
 			for (int g = 0; g <= 2; g++)
 				if (tic[g][g].equals("N"))
 				{
-					tic[g][g] = "O"; // make move
+					tic[g][g] = "O";
+
 					sum = "";
 					for (int v = 0; v <= 2; v++)
 						sum += tic[v][v];
@@ -306,18 +347,14 @@ public class TicTacToe2
 					minidetermine(sum);
 					return;
 				}
-		// else
-		// println("fatal error on \\ willWin di" + g);
 
 		if (willLose(sum))
 			for (int g = 0; g <= 2; g++)
 				if (tic[g][g].equals("N"))
 				{
-					tic[g][g] = "O"; // make move
+					tic[g][g] = "O";
 					return;
 				}
-		// else
-		// println("fatal error on \\ willLose di" + g);
 
 		sum = "";
 		for (int e = 0; e <= 2; e++)
@@ -330,8 +367,10 @@ public class TicTacToe2
 					tic[g][2 - g] = "O"; // make move
 
 					sum = "";
+
 					for (int e = 0; e <= 2; e++)
-						sum += tic[e][2 - e]; // make move
+						sum += tic[e][2 - e];
+
 					minidetermine(sum);
 
 					return;
@@ -350,9 +389,15 @@ public class TicTacToe2
 		// println("fatal error on / di" + g);
 	}
 
-
-	public static void minidetermine(String sum)
-	{ // for determine situation of the string sum
+	/**
+	 * for determine situation of the string sum; if the situation has already
+	 * been "danger", it won't determine again
+	 * 
+	 * @param sum
+	 *            the added up line of toes
+	 */
+	private static void minidetermine(String sum)
+	{
 
 		if (situation == Situation.danger)
 			return;
@@ -380,14 +425,20 @@ public class TicTacToe2
 
 	}
 
-	static void end()
+	/**
+	 * end method will close this program
+	 */
+	private static void end()
 	{
 		System.out.println("Round " + rounds + " end.");
 		System.out.println("You " + situation + ".");
 		System.exit(-1);
 	}
 
-	public static void paintResult()
+	/**
+	 * paint the "image" of the board
+	 */
+	private static void paintBoard()
 	{
 		// 打出结果，此可分开成单独的
 		for (int i = 0; i <= 2; i++)
