@@ -10,9 +10,6 @@ public class TicTacToe2
 	static Random rand = new Random();
 	static int rounds = 0;
 
-	static int r = 0; // user row
-	static int c = 0; // user colume
-
 	public static void go()
 	{
 
@@ -69,6 +66,9 @@ public class TicTacToe2
 
 	static void playerMove()
 	{
+		int r = 0; // user row
+		int c = 0; // user colume
+
 		do
 		{
 			do
