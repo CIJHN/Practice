@@ -12,7 +12,6 @@ public class TicTacToe2
 
 	public static void go()
 	{
-
 		for (int j = 0; j <= 2; j++)
 		{
 			for (int k = 0; k <= 2; k++)
@@ -179,7 +178,7 @@ public class TicTacToe2
 		}
 		else
 			// block();
-			testBlock();
+			block();
 
 	}
 
@@ -237,7 +236,7 @@ public class TicTacToe2
 		return s;
 	}
 
-	static void testBlock()
+	static void block()
 	{
 		String sum; // the sum of strings
 
@@ -351,108 +350,6 @@ public class TicTacToe2
 		// println("fatal error on / di" + g);
 	}
 
-	public static void block()
-	{
-		String sum = ""; // the sum of strings
-
-		System.out.println("block");
-
-		for (int j = 0; j <= 2; j++)
-		{
-			for (int k = 0; k <= 2; k++)
-				sum += tic[j][k];
-
-			if (sum.equals("OON") || sum.equals("NOO") || sum.equals("ONO"))
-			{ // add 2 in a row
-				for (int t = 0; t <= 2; t++)
-				{
-					if (tic[j][t].equals("N"))
-					{
-						println("find place in " + j + " " + t);
-						tic[j][t] = "O"; // make move
-						return;
-					}
-				}
-			}
-			else if (sum.equals("NXX") || sum.equals("XXN") || sum.equals("XNX"))
-			{ // block 2 in a row
-				for (int t = 0; t <= 2; t++)
-				{
-					if (tic[j][t].equals("N"))
-					{
-						println("find place in " + j + " " + t);
-						tic[j][t] = "O";// make move
-						return;
-					}
-				}
-			}
-		}
-
-		for (int j = 0; j <= 2; j++)
-		{
-			{ // limit the block just once
-				for (int k = 0; k <= 2; k++)
-					sum += tic[k][j];
-
-				if (sum.equals("OON") || sum.equals("NOO") || sum.equals("ONO"))
-				{ // add 2 in a row
-					for (int t = 0; t <= 2; t++)
-					{
-						if (!tic[t][j].equals("O"))
-						{
-							tic[t][j] = "O"; // make move
-							return;
-						}
-					}
-				}
-				else if (sum.equals("NXX") || sum.equals("XXN") || sum.equals("XNX"))
-				{ // block 2 in a row
-					for (int t = 0; t <= 2; t++)
-					{
-						if (!tic[t][j].equals("X"))
-						{
-							tic[t][j] = "O";// make move
-							return;
-						}
-					}
-				}
-			}
-		}
-
-		sum = "";
-		for (int v = 0; v <= 2; v++)
-		{ // add or block 2 in a row in diagonal form right to left
-			sum = sum + tic[v][v];
-		}
-		if (sum.equals("NOO") || sum.equals("OON") || sum.equals("NXX") || sum.equals("XXN") || sum.equals("ONO") || sum.equals("XNX"))
-		{ // possibility of two in a row
-			for (int g = 0; g <= 2; g++)
-			{
-				if (!tic[g][g].equals("X"))
-				{
-					tic[g][g] = "O"; // make move
-					return;
-				}
-			}
-		}
-
-		sum = "";
-		for (int e = 0; e <= 2; e++)
-		{ // add or block 2 in a row in diagonal form left to right
-			sum += tic[e][2 - e]; // make move
-		}
-		if (sum.equals("NOO") || sum.equals("OON") || sum.equals("NXX") || sum.equals("XXN") || sum.equals("ONO") || sum.equals("XNX"))
-		{ // possibility of two in a row
-			for (int g = 0; g <= 2; g++)
-			{
-				if (!tic[g][2 - g].equals("X"))
-				{
-					tic[g][2 - g] = "O"; // make move
-					return;
-				}
-			}
-		}
-	}
 
 	public static void minidetermine(String sum)
 	{ // for determine situation of the string sum
