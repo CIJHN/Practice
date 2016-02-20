@@ -2,6 +2,8 @@ package net.ci010.practice.reflection;
 
 public class Father
 {
+	Data data;
+
 	public static void test()
 	{
 		String clazzName3 = new Object()
