@@ -45,12 +45,13 @@ public class EditDis
 
 	public static List<String> getPath(String a, String b)
 	{
-		List<String> path = new ArrayList<>();
-		List<Integer> diff = new LinkedList<>();
+		List<String> path = new ArrayList<>();//The list of path
+		List<Integer> diff = new LinkedList<>();//The list indicates which indexes of a and b are different.
 		for (int i = 0; i < a.length(); i++)
 			if (a.charAt(i) != b.charAt(i))
 				diff.add(i);
 		getPath(a, b, path, diff);
+		path.remove(b);
 		return path;
 	}
 
@@ -59,24 +60,23 @@ public class EditDis
 		char[] origin = a.toCharArray();
 		for (int i = 0; i < diff.size(); i++)
 		{
+			//build a new word from a with just only one char replaced by the b at #index.
 			int index = diff.get(i);
 			char temp = origin[index];
 			origin[index] = b.charAt(index);
 			String next = new String(origin);
 			origin[index] = temp;
 
-			Set<String> set = dictionaryMaps.get(a).get(index);
+			Set<String> set = dictionaryMaps.get(a).get(index);//get all the neighbors of a
 			if (set != null)
 				if (set.contains(next))
+				//if a's neighbor contains new guessing word, remove #i from diff so that we not tracking it anymore.
+				//and add new word to path
 				{
 					path.add(next);
 					diff.remove(i);
-					if (i > 0)
-					{
-						getPath(a, b, path, diff);
-						return;
-					}
-
+					getPath(next, b, path, diff);
+					return;
 				}
 		}
 	}
