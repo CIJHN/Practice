@@ -27,7 +27,7 @@ public class EditDistanceLow
 		return list;
 	}
 
-	public void init(Iterator<String> words)
+	public static void init(Iterator<String> words)
 	{
 		List<Object[]> nodeList = new ArrayList<>();
 		while (words.hasNext())
