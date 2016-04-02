@@ -10,6 +10,23 @@ public class EditDistanceLow
 	private static Map<String, Object[]> dict = new HashMap<>();
 	private static List<Integer> cache = new LinkedList<>();
 
+	public static List<String> findPath(String a, String b)
+	{
+		if (!dict.containsKey(a) || !dict.containsKey(b))
+			return null;
+		if (a.length() != b.length())
+			return Collections.emptyList();
+
+		List<String> list = new ArrayList<>();
+		cache.clear();
+		for (int i = 0; i < a.length(); i++)
+			if (a.charAt(i) != b.charAt(i))
+				cache.add(i);
+		discover(list, dict.get(a), dict.get(b));
+		cache.clear();
+		return list;
+	}
+
 	public void init(Iterator<String> words)
 	{
 		List<Object[]> nodeList = new ArrayList<>();
@@ -59,37 +76,27 @@ public class EditDistanceLow
 		}
 	}
 
-	public static void put(String s)
+	///////Node method start. Internal usage///////
+
+	private static Object[] newNode(String s)
 	{
-		int length = s.length();
-		dict.put(s, new Object[]{s, new Object[length]});
+		return new Object[]{s, new Object[s.length()]};
 	}
 
-	public static Object[] get(String key)
-	{
-		return dict.get(key);
-	}
-
-	public static String getValue(Object[] node)
+	private static String getValue(Object[] node)
 	{
 		return (String) node[0];
 	}
 
-	static void setNeighbor(Object[] node, int id, Object[] neighbor)
-	{
-		getNeighbors(node)[id].add(neighbor);
-	}
-
-	static TreeSet<Object[]>[] getNeighbors(Object[] node)
+	private static TreeSet<Object[]>[] getNeighbors(Object[] node)
 	{
 		return (TreeSet<Object[]>[]) node[1];
 	}
 
-	static TreeSet<Object[]> getNeighborAt(Object[] node, int id)
+	private static TreeSet<Object[]> getNeighborAt(Object[] node, int id)
 	{
 		return getNeighbors(node)[id];
 	}
-
 
 	private static void addNeighbor(Object[] node, Object[] next, int i)
 	{
@@ -100,39 +107,16 @@ public class EditDistanceLow
 		n.add(next);
 	}
 
-	static Object[] newNode(String s)
-	{
-		return new Object[]{s, new Object[s.length()]};
-	}
-
-	public static List<String> findPath(String a, String b)
-	{
-		if (!dict.containsKey(a) || !dict.containsKey(b))
-			return null;
-		if (a.length() != b.length())
-			return Collections.emptyList();
-
-		List<String> list = new ArrayList<>();
-		cache.clear();
-		for (int i = 0; i < a.length(); i++)
-			if (a.charAt(i) != b.charAt(i))
-				cache.add(i);
-		discover(list, a, b);
-		cache.clear();
-		return list;
-	}
-
-
-	private static void discover(List<String> list, String a, String b)
+	private static void discover(List<String> list, Object[] a, Object[] b)
 	{
 		int j = 0;
 		for (int i : cache)
 		{
 			Object[] near = null;
-			TreeSet<Object[]> neighborAt = getNeighborAt(get(a), i);
+			TreeSet<Object[]> neighborAt = getNeighborAt(a, i);
 			if (neighborAt != null)
 				for (Object[] node : neighborAt)
-					if (getValue(node).charAt(i) == getValue(get(b)).charAt(i))
+					if (getValue(node).charAt(i) == getValue(b).charAt(i))
 						near = node;
 			if (near != null)
 			{
