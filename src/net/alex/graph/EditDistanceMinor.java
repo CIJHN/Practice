@@ -1,4 +1,4 @@
-package net.ci010.practice.alex.graph;
+package net.alex.graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
